@@ -11,7 +11,7 @@ using namespace std;
 
 #define scroll printf("%c[r",esc);
 
-int listContent(const char*);
+int listContent(string);
 void displayContent(const char *);
 void handleCommands();
 string getPath(string name);

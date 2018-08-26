@@ -1,6 +1,9 @@
 #include "header.h"
 #include "macro.h"
 
-vector<pair<char,string>> list;
+vector<string> filelist;
 string home;
 string currentPath;
+stack<string> pathstack;
+
+ofstream myfile;

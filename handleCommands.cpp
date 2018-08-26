@@ -3,7 +3,7 @@
 
 int lineno=0;
 
-extern vector<pair<char,string>> list;
+extern vector<string> filelist;
 
 void handleCommands(){
 
@@ -62,23 +62,45 @@ void handleCommands(){
                 else if(ch==127)
                 	cout<<"Back";
                 else if(ch=='\n'){
-                    if(list[lineno].first=='f'){
-                        //if(execl("/usr/bin/xdg-open", "xdg-open", list[lineno].second, (char *)0) !=0 );
+                    string file=filelist[lineno];
+                    struct stat sb;
+                    stat(file.c_str(), &sb);
+                    bool isDirectory=S_ISDIR(sb.st_mode);
 
+                    if(isDirectory){
+
+                        extern string currentPath;
+                        //currentPath.append("/");
+                        //currentPath.append(filelist[lineno].second);
+                        //cout<<file<<endl;
+
+                        //if(filelist.empty()) filelist.clear();
+                        listContent(file);
+                        lineno=0;
+                        pos(0,0);
+                    }
+                    else{
+
+                    }/*
+                    if(filelist[lineno].first=='f'){
+                        //if(execl("/usr/bin/xdg-open", "xdg-open", filelist[lineno].second, (char *)0) !=0 );
+                        //cout<<lineno;
                         //cout<<"ffffffffffffff"<<endl;
                     }
                     else{
                         //cout<<"ddddddddddddd"<<endl;
 
-                        const char *file=list[lineno].second.c_str();
+                        string file=filelist[lineno].second;
                         extern string currentPath;
                         //currentPath.append("/");
-                        //currentPath.append(list[lineno].second);
+                        //currentPath.append(filelist[lineno].second);
+                        //cout<<file<<endl;
 
+                        //if(filelist.empty()) filelist.clear();
                         listContent(file);
                         lineno=0;
                         pos(0,0);
-                    }
+                    }*/
                     //cout<<lineno<<endl;
                 }
                 else{

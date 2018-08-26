@@ -6,7 +6,8 @@ int main(int argc, char *argv[]){
     printf("\033[?1049h\033[H");    //alternate buffer
 
     extern string home,currentPath;
-
+    extern ofstream myfile;
+    myfile.open ("debug.txt");
     if(argc==1){
         home=getpwd();
         currentPath=home;
@@ -15,7 +16,7 @@ int main(int argc, char *argv[]){
     }
     else{
         home=argv[1];
-        currentPath=home;
+        currentPath=argv[1];
         listContent(argv[1]);
         handleCommands();
     }
