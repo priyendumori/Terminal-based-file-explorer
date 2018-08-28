@@ -7,15 +7,18 @@ int main(int argc, char *argv[]){
 
     extern string home,currentPath;
     extern ofstream myfile;
+    extern stack<string> backstack;
     myfile.open ("debug.txt");
     if(argc==1){
         home=getpwd();
+        backstack.push(home);
         currentPath=home;
         listContent(".");
         handleCommands();
     }
     else{
         home=argv[1];
+        backstack.push(home);
         currentPath=argv[1];
         listContent(argv[1]);
         handleCommands();

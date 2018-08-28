@@ -4,6 +4,6 @@
 vector<string> filelist;
 string home;
 string currentPath;
-stack<string> pathstack;
+stack<string> pathstack,backstack,frontstack;
 
 ofstream myfile;

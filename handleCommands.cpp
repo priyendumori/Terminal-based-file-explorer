@@ -4,6 +4,10 @@
 int lineno=0;
 
 extern vector<string> filelist;
+extern stack<string> backstack,frontstack;
+extern string currentPath;
+extern ofstream myfile;
+extern string home;
 
 void handleCommands(){
 
@@ -23,14 +27,12 @@ void handleCommands(){
         newrsettings = initialrsettings;
         newrsettings.c_lflag &= ~ICANON;
         newrsettings.c_lflag &= ~ECHO;
-        //printf("Enter Key: ");
 
         if(tcsetattr(fileno(stdin), TCSAFLUSH, &newrsettings) != 0) {
             fprintf(stderr,"Could not set attributes\n");
         }
         else {
 
-            //pos(0,0);
             while(ch=cin.get()){
 
 
@@ -38,29 +40,96 @@ void handleCommands(){
                 	ch=cin.get();
                 	ch=cin.get();
                 	if(ch=='A'){
-                        lineno--;
-                        up;
-                        cout<<lineno;
+                        if(lineno>0){
+                            lineno--;
+                            up;
+                        }
                         //\033[6n
                 	}
                 	else if(ch=='B'){
-                        lineno++;
-                        down;
-                        cout<<lineno;
+                        if(lineno<filelist.size()-1){
+                            lineno++;
+                            down;
+                        }
                 	}
-                	else if(ch=='C')
-                		cout<<"Right";
-                	else if(ch=='D')
-                		cout<<"Left";
+                	else if(ch=='C'){
+                		//cout<<"Right";
+                        if(!frontstack.empty()){
+                            string file=frontstack.top();
+                            frontstack.pop();
+                            backstack.push(file);
+                            listContent(file);
+                            pos(0,0);
+                            lineno=0;
+                        }
+
+                                                stack<string> temp=backstack;
+                                                myfile<<endl<<"backstack "<<endl;
+                                                while(!temp.empty()){
+                                                    myfile << temp.top()<<endl;
+                                                    temp.pop();
+                                                }
+
+                                                stack<string> temp1=frontstack;
+                                                myfile<<endl<<"frontstack "<<endl;
+                                                while(!temp1.empty()){
+                                                    myfile << temp1.top()<<endl;
+                                                    temp1.pop();
+                                                }
+
+                    }
+                	else if(ch=='D'){
+                		//cout<<"Left";
+                        if(backstack.size()>1){
+                            string file=backstack.top();
+                            backstack.pop();
+                            frontstack.push(file);
+                            file=backstack.top();
+                            listContent(file);
+                            pos(0,0);
+                            lineno=0;
+                        }
+
+                                                stack<string> temp=backstack;
+                                                myfile<<endl<<"backstack "<<endl;
+                                                while(!temp.empty()){
+                                                    myfile << temp.top()<<endl;
+                                                    temp.pop();
+                                                }
+
+                                                stack<string> temp1=frontstack;
+                                                myfile<<endl<<"frontstack "<<endl;
+                                                while(!temp1.empty()){
+                                                    myfile << temp1.top()<<endl;
+                                                    temp1.pop();
+                                                }
+
+
+                    }
                 	else{
                 		cout<<"ESC";
                     }
                 }
                 else if(ch==104 || ch==72){
-                	cout<<"home";
+                    backstack.push(home);
+                    while(!frontstack.empty()) frontstack.pop();
+                    listContent(home);
+                    pos(0,0);
+                    lineno=0;
+                    //cout<<"home";
                 }
-                else if(ch==127)
-                	cout<<"Back";
+                else if(ch==127){
+                	//cout<<"Back";
+                    //string s1("../somepath/somemorepath/somefile.ext");
+                    //myfile << s1.substr(0, s1.find_last_of("\\/")) << endl;
+                    if(currentPath != home){
+                        while(!frontstack.empty()) frontstack.pop();
+                        currentPath=currentPath.substr(0, currentPath.find_last_of("\\/"));
+                        listContent(currentPath);
+                        pos(0,0);
+                        lineno=0;
+                    }
+                }
                 else if(ch=='\n'){
                     string file=filelist[lineno];
                     struct stat sb;
@@ -69,39 +138,44 @@ void handleCommands(){
 
                     if(isDirectory){
 
-                        extern string currentPath;
-                        //currentPath.append("/");
-                        //currentPath.append(filelist[lineno].second);
-                        //cout<<file<<endl;
+                        string currentFile=file.substr(file.find_last_of("\\/")+1,file.length());
+                        if(currentFile.compare(".")==0){
+                            pos(0,0);
+                            lineno=0;
+                        }
+                        else if(currentFile.compare("..")==0){
+                            currentPath=currentPath.substr(0, currentPath.find_last_of("\\/"));
+                            backstack.push(currentPath);
+                            listContent(currentPath);
+                            pos(0,0);
+                            lineno=0;
+                        }
+                        else{
+                            backstack.push(file);
+                            listContent(file);
+                            lineno=0;
+                            pos(0,0);
+                        }
 
-                        //if(filelist.empty()) filelist.clear();
-                        listContent(file);
-                        lineno=0;
-                        pos(0,0);
+
+                        stack<string> temp=backstack;
+                        myfile<<endl<<"backstack "<<endl;
+                        while(!temp.empty()){
+                            myfile << temp.top()<<endl;
+                            temp.pop();
+                        }
+
+                        stack<string> temp1=frontstack;
+                        myfile<<endl<<"frontstack "<<endl;
+                        while(!temp1.empty()){
+                            myfile << temp1.top()<<endl;
+                            temp1.pop();
+                        }
+
                     }
                     else{
 
-                    }/*
-                    if(filelist[lineno].first=='f'){
-                        //if(execl("/usr/bin/xdg-open", "xdg-open", filelist[lineno].second, (char *)0) !=0 );
-                        //cout<<lineno;
-                        //cout<<"ffffffffffffff"<<endl;
                     }
-                    else{
-                        //cout<<"ddddddddddddd"<<endl;
-
-                        string file=filelist[lineno].second;
-                        extern string currentPath;
-                        //currentPath.append("/");
-                        //currentPath.append(filelist[lineno].second);
-                        //cout<<file<<endl;
-
-                        //if(filelist.empty()) filelist.clear();
-                        listContent(file);
-                        lineno=0;
-                        pos(0,0);
-                    }*/
-                    //cout<<lineno<<endl;
                 }
                 else{
                     tcsetattr(fileno(stdin), TCSANOW, &initialrsettings);
