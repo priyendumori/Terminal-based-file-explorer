@@ -7,6 +7,13 @@ extern ofstream myfile;
 
 int listContent(string name){
 
+    struct winsize w;
+    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+
+    //printf ("lines %d\n", w.ws_row);
+    //printf ("columns %d\n", w.ws_col);
+
+
     filelist.clear();
     cls;
     pos(0,0);
@@ -26,6 +33,10 @@ int listContent(string name){
         }
         printf("\n");
         closedir (dir);
+        pos(w.ws_row,0);
+        cout<<"Normal mode";
+        //scroll(0,w.ws_row);
+        pos(0,0);
     }
     else {
         /* could not open directory */

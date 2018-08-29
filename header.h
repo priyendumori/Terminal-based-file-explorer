@@ -9,5 +9,6 @@
 #include <sys/ioctl.h>
 #include <vector>
 #include <stack>
+#include <fcntl.h>
 
 #include <fstream>
