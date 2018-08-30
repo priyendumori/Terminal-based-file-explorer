@@ -9,6 +9,7 @@
 #include <sys/ioctl.h>
 #include <vector>
 #include <stack>
+#include <queue>
 #include <fcntl.h>
 #include <string.h>
 

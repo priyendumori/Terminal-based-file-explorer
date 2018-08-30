@@ -94,7 +94,7 @@ void runCommand(string command){
 
     }
     else if(commandName.compare("snapshot")==0){
-
+        getSnapshot(split[1], split[2]);
     }
 }
 
