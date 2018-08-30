@@ -106,7 +106,8 @@ void handleCommands(){
 
                 }
             	else{
-            		cout<<"ESC";
+            		//cout<<"ESC";
+
                 }
             }
             else if(ch==104 || ch==72){
@@ -195,11 +196,16 @@ void handleCommands(){
                 commands();
 
             }
-            else{
-                tcsetattr(fileno(stdin), TCSANOW, &initialrsettings);
+            else if(ch=='q'){
                 printf("\033[?1049l"); //out of alternate buffer
+                tcsetattr(fileno(stdin), TCSANOW, &initialrsettings);
                 exit(1);
-            	cout<<ch;
+            }
+            else{
+                //tcsetattr(fileno(stdin), TCSANOW, &initialrsettings);
+                //printf("\033[?1049l"); //out of alternate buffer
+                //exit(1);
+            	//cout<<ch;
             }
         }
 

@@ -10,5 +10,6 @@
 #include <vector>
 #include <stack>
 #include <fcntl.h>
+#include <string.h>
 
 #include <fstream>

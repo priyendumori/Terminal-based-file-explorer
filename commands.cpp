@@ -1,6 +1,6 @@
 #include "header.h"
 #include "macro.h"
-#include <string.h>
+
 extern ofstream myfile;
 extern string currentPath,home;
 
@@ -76,7 +76,16 @@ void runCommand(string command){
         cout<<":";
     }
     else if(commandName.compare("delete_file")==0){
-
+        deleteFile(split[1], split[2]);
+        pos(w.ws_row,0);
+        clearline;
+        cout<<":";
+    }
+    else if(commandName.compare("delete_dir")==0){
+        deleteDirectory(split[1], split[2]);
+        pos(w.ws_row,0);
+        clearline;
+        cout<<":";
     }
     else if(commandName.compare("goto")==0){
         gotoDirectory(split[1]);
@@ -87,31 +96,6 @@ void runCommand(string command){
     else if(commandName.compare("snapshot")==0){
 
     }
-}
-
-void gotoDirectory(string dir){
-    string fullpath=home;
-    if(dir.compare("/")!=0) fullpath.append("/"+dir);
-    myfile<<endl<<"fp: "<<fullpath<<endl;
-    listContent(fullpath);
-    handleCommands();
-}
-
-void createFile(string filename, string path){
-    string fullpath=createPath(path, filename);
-    int fd=open(fullpath.c_str(), O_WRONLY | O_CREAT, 0644);
-
-}
-
-void changeName(string oldname, string newname){
-    rename(oldname.c_str(), newname.c_str());
-}
-
-void createDirectory(string dirname, string path){
-    //if(path.compare(".")==0) path=currentPath;
-    string fullpath=createPath(path, dirname);
-    //myfile<<fullpath<<endl;
-    mkdir(fullpath.c_str(),0775);
 }
 
 string createPath(string path, string name){

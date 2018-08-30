@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = -Wall -std=c++14
 DEPS = header.h macro.h
-OBJ = global.o listDirectories.o handleCommands.o main.o commands.o
+OBJ = global.o listDirectories.o handleCommands.o commands.o delete.o create.o rename.o goto.o main.o 
 
 %.o: %.cpp $(DEPS)
 	$(CC) $(CFLAGS) -c -o $@ $<

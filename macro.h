@@ -27,3 +27,5 @@ void createDirectory(string, string);
 string createPath(string , string);
 void createFile(string, string);
 void gotoDirectory(string);
+void deleteFile(string, string);
+void deleteDirectory(string, string);
