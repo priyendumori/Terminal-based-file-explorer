@@ -54,7 +54,7 @@ void runCommand(string command){
         copyContent(split);
     }
     else if(commandName.compare("move")==0){
-
+        moveContent(split);
     }
     else if(commandName.compare("rename")==0){
         changeName(split[1], split[2]);

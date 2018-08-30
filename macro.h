@@ -31,4 +31,6 @@ void deleteFile(string, string);
 void deleteDirectory(string, string);
 void getSnapshot(string, string);
 void copyContent(vector<string>);
+void moveContent(vector<string>);
+void deleteHelper(string);
 string getWholePath(string );

@@ -68,11 +68,9 @@ void copyContent(vector<string> arguments){
     arguments.erase(arguments.begin()+arguments.size()-1);
 
     destination=getWholePath(destination);
-    for(auto i:arguments){
-        myfile<<i<<endl;
-    }
+
     for(int i=0;i<arguments.size();i++){
-        string path=getPath(arguments[i]);
+        string path=getWholePath(arguments[i]);
         //myfile<<"calling function on "<<path<<" and "<<destination<<endl;
         struct stat buf;
         stat(path.c_str(), &buf);
