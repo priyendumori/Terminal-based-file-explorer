@@ -30,3 +30,5 @@ void gotoDirectory(string);
 void deleteFile(string, string);
 void deleteDirectory(string, string);
 void getSnapshot(string, string);
+void copyContent(vector<string>);
+string getWholePath(string );

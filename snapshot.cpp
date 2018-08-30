@@ -1,8 +1,8 @@
 #include "header.h"
 #include "macro.h"
 ofstream dump;
-queue<string> q;
 extern string currentPath,home;
+extern ofstream myfile;
 
 void snapshotHelper(string path){
     string fullpath;
@@ -31,10 +31,7 @@ void snapshotHelper(string path){
             continue;
 
         dump<<"\t"<<(entry->d_name)<<"\t";
-        fullpath=path;
-        fullpath.append("/").append(entry->d_name);
 
-        stat(fullpath.c_str(), &stat_entry);
 
     }
     dump<<endl;
@@ -68,19 +65,7 @@ void getSnapshot(string dir, string dumpfile){
 
     dump.open(dumpfile+".txt");
 
-    string fullpath=home;
-    if(dir.compare(".")==0){
-        fullpath=currentPath;
-    }else if(dir[0]=='~'){
-        fullpath.append(dir.substr(1,dir.length()-1));
-    }
-    else if(dir[0]=='/'){
-        fullpath.append(dir);
-    }
-    else{
-        fullpath=currentPath;
-        fullpath.append("/"+dir);
-    }
-
+    string fullpath=getWholePath(dir);
     snapshotHelper(fullpath);
+    dump.close();
 }

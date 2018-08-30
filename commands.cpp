@@ -51,7 +51,7 @@ void runCommand(string command){
 
     string commandName=split[0];
     if(commandName.compare("copy")==0){
-
+        copyContent(split);
     }
     else if(commandName.compare("move")==0){
 
@@ -118,5 +118,22 @@ string createPath(string path, string name){
     }
     fullpath.append("/"+name);
 
+    return fullpath;
+}
+
+string getWholePath(string name){
+    string fullpath=home;
+    if(name.compare(".")==0){
+        fullpath=currentPath;
+    }else if(name[0]=='~'){
+        fullpath.append(name.substr(1,name.length()-1));
+    }
+    else if(name[0]=='/'){
+        fullpath.append(name);
+    }
+    else{
+        fullpath=currentPath;
+        fullpath.append("/"+name);
+    }
     return fullpath;
 }
