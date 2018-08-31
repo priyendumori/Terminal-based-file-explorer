@@ -53,47 +53,28 @@ void displayContent(const char *dname){
     if(dirname.compare("..")==0 && currentPath==home)
         return;
 
-    stat(dname, &sb);
+    string path=getPath(dname);
+    stat(path.c_str(), &sb);
 
-    string permissions;
-    switch (sb.st_mode & S_IFMT) {
-        case S_IFDIR:  permissions.append("d");    break;
-        case S_IFREG:  permissions.append("-");    break;
-        default:       permissions.append("-");    break;
-    }
+    myfile<<"file "<<path<<endl;
 
-    if (sb.st_mode & S_IRUSR)   permissions.append("r");
-    else permissions.append("-");
-    if (sb.st_mode & S_IWUSR)  permissions.append("w");
-    else permissions.append("-");
-    if (sb.st_mode & S_IXUSR)  permissions.append("x");
-    else permissions.append("-");
+    printf((S_ISDIR(sb.st_mode))  ? "d" : "-");
+    printf((sb.st_mode & S_IRUSR) ? "r" : "-");
+    printf((sb.st_mode & S_IWUSR) ? "w" : "-");
+    printf((sb.st_mode & S_IXUSR) ? "x" : "-");
+    printf((sb.st_mode & S_IRGRP) ? "r" : "-");
+    printf((sb.st_mode & S_IWGRP) ? "w" : "-");
+    printf((sb.st_mode & S_IXGRP) ? "x" : "-");
+    printf((sb.st_mode & S_IROTH) ? "r" : "-");
+    printf((sb.st_mode & S_IWOTH) ? "w" : "-");
+    printf((sb.st_mode & S_IXOTH) ? "x" : "-");
+    printf("\t");
 
-    if (sb.st_mode & S_IRGRP)   permissions.append("r");
-    else permissions.append("-");
-    if (sb.st_mode & S_IWGRP)  permissions.append("w");
-    else permissions.append("-");
-    if (sb.st_mode & S_IXGRP)  permissions.append("x");
-    else permissions.append("-");
-
-    if (sb.st_mode & S_IROTH)   permissions.append("r");
-    else permissions.append("-");
-    if (sb.st_mode & S_IWOTH)  permissions.append("w");
-    else permissions.append("-");
-    if (sb.st_mode & S_IXOTH)  permissions.append("x");
-    else permissions.append("-");
-
-
-    cout<<permissions<<"\t";
-
-    struct passwd *pws;
-    pws = getpwuid(sb.st_uid);
-    char *username=pws->pw_name;
-    struct group *g;
-    g = getgrgid(sb.st_gid);
-    char *groupname=g->gr_name;
-
-    printf("%s : %s \t", username , groupname );
+    struct passwd *pwd = getpwuid(sb.st_uid);
+    struct group  *grp = getgrgid(sb.st_gid);
+    const char *username=pwd->pw_name;
+    const char *groupname=grp->gr_name;
+    printf("%s %s \t", username, groupname);
 
     long long size=sb.st_size;
     char unit='B';
@@ -104,15 +85,18 @@ void displayContent(const char *dname){
     if(size>1024){
         size/=1024;
         unit='M';
+    }if(size>1024){
+        size/=1024;
+        unit='G';
     }
-    cout<<size<<" "<<unit<<"\t";
+    printf("%lld %c \t", size, unit);
 
     string time = ctime(&sb.st_mtime);
     string trimtime = time.substr(0, time.size()-1);
     cout<< trimtime <<"\t";
     printf ("%s \n", dname);
 
-    string path=getPath(dname);
+
     filelist.push_back(path);
 
 }

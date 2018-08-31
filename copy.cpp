@@ -17,6 +17,12 @@ void copy(string from, string to){
             perror("writing problem ");
         }
     }
+
+    struct stat sb;
+    stat(from.c_str(), &sb);
+    chown(to.c_str(), sb.st_uid, sb.st_gid);
+    chmod(to.c_str(), sb.st_mode);
+
     close(fd_from);
     close(fd_to);
 }

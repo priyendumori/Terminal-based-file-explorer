@@ -56,21 +56,6 @@ void handleCommands(bool isSearchResult){
                         pos(0,0);
                         lineno=0;
                     }
-
-                                            stack<string> temp=backstack;
-                                            myfile<<endl<<"backstack "<<endl;
-                                            while(!temp.empty()){
-                                                myfile << temp.top()<<endl;
-                                                temp.pop();
-                                            }
-
-                                            stack<string> temp1=frontstack;
-                                            myfile<<endl<<"frontstack "<<endl;
-                                            while(!temp1.empty()){
-                                                myfile << temp1.top()<<endl;
-                                                temp1.pop();
-                                            }
-
                 }
             	else if(ch=='D'){
             		//cout<<"Left";
@@ -83,22 +68,6 @@ void handleCommands(bool isSearchResult){
                         pos(0,0);
                         lineno=0;
                     }
-
-                                            stack<string> temp=backstack;
-                                            myfile<<endl<<"backstack "<<endl;
-                                            while(!temp.empty()){
-                                                myfile << temp.top()<<endl;
-                                                temp.pop();
-                                            }
-
-                                            stack<string> temp1=frontstack;
-                                            myfile<<endl<<"frontstack "<<endl;
-                                            while(!temp1.empty()){
-                                                myfile << temp1.top()<<endl;
-                                                temp1.pop();
-                                            }
-
-
                 }
             	else{
             		//cout<<"ESC";
@@ -134,6 +103,7 @@ void handleCommands(bool isSearchResult){
                 else{
                     file=filelist[lineno];
                 }
+                myfile<<endl<<file<<endl;
                 struct stat sb;
                 stat(file.c_str(), &sb);
                 bool isDirectory=S_ISDIR(sb.st_mode);
@@ -186,6 +156,7 @@ void handleCommands(bool isSearchResult){
                     int pid = fork();
 
                     if (pid == 0) {
+                        //close(2);
                         execlp("/usr/bin/xdg-open", "xdg-open", file, NULL);
                         exit(1);
                   }
