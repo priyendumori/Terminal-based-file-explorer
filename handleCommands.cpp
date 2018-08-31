@@ -3,13 +3,13 @@
 
 int lineno=0;
 
-extern vector<string> filelist;
+extern vector<string> filelist, results;
 extern stack<string> backstack,frontstack;
 extern string currentPath;
 extern ofstream myfile;
 extern string home;
 
-void handleCommands(){
+void handleCommands(bool isSearchResult){
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
 
@@ -131,7 +131,14 @@ void handleCommands(){
                 }
             }
             else if(ch=='\n'){
-                string file=filelist[lineno];
+                string file;
+                if(isSearchResult){
+                    file=results[lineno];
+                    isSearchResult=false;
+                }
+                else{
+                    file=filelist[lineno];
+                }
                 struct stat sb;
                 stat(file.c_str(), &sb);
                 bool isDirectory=S_ISDIR(sb.st_mode);
@@ -139,6 +146,7 @@ void handleCommands(){
                 if(isDirectory){
 
                     string currentFile=file.substr(file.find_last_of("\\/")+1,file.length());
+                    myfile<<"opening "<<file<<endl;
                     if(currentFile.compare(".")==0){
 
                         listContent(currentPath);

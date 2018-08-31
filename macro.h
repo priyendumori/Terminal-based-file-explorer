@@ -17,7 +17,7 @@ using namespace std;
 
 int listContent(string);
 void displayContent(const char *);
-void handleCommands();
+void handleCommands(bool);
 string getPath(string);
 string getpwd();
 void commands();
@@ -34,3 +34,5 @@ void copyContent(vector<string>);
 void moveContent(vector<string>);
 void deleteHelper(string);
 string getWholePath(string );
+void search(string, string);
+void displaySearchResults();

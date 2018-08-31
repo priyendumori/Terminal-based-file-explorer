@@ -10,5 +10,5 @@ void gotoDirectory(string dir){
     myfile<<endl<<"fp: "<<fullpath<<endl;
     backstack.push(fullpath);
     listContent(fullpath);
-    handleCommands();
+    handleCommands(false);
 }

@@ -14,14 +14,14 @@ int main(int argc, char *argv[]){
         backstack.push(home);
         currentPath=home;
         listContent(".");
-        handleCommands();
+        handleCommands(false);
     }
     else{
         home=argv[1];
         backstack.push(home);
         currentPath=argv[1];
         listContent(argv[1]);
-        handleCommands();
+        handleCommands(false);
     }
     return 0;
 }

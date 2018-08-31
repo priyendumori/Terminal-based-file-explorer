@@ -3,7 +3,8 @@
 
 extern ofstream myfile;
 extern string currentPath,home;
-
+extern vector<string> results, printresults;
+extern stack<string> backstack;
 vector<string> split;
 struct winsize w;
 
@@ -27,7 +28,7 @@ void commands(){
                 cout<<"Normal mode";
                 pos(0,0);
                 listContent(currentPath);
-                handleCommands();
+                handleCommands(false);
             }
             cout<<ch;
             command+=ch;
@@ -91,7 +92,15 @@ void runCommand(string command){
         gotoDirectory(split[1]);
     }
     else if(commandName.compare("search")==0){
-
+        results.clear();
+        printresults.clear();
+        search(currentPath, split[1]);
+        cls;
+        pos(0,0);
+        displaySearchResults();
+        pos(0,0);
+        backstack.push(currentPath);
+        handleCommands(true);
     }
     else if(commandName.compare("snapshot")==0){
         getSnapshot(split[1], split[2]);
