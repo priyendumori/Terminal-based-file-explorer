@@ -22,6 +22,14 @@ void commands(){
             runCommand(command);
             command="";
         }
+        else if(ch==127){
+            if(command.length()>0){
+                command.pop_back();
+                clearline;
+                pos(w.ws_row,0);
+                cout<<":"<<command;
+            }
+        }
         else{
             if(ch==27){
                 pos(w.ws_row,0);

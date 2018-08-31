@@ -9,7 +9,7 @@ using namespace std;
 #define up printf("%c[%dA",esc,1);
 #define down printf("%c[%dB",esc,1);
 #define clearline printf("%c[%dK",esc,2);
-
+#define clearlineaftercursor printf("%c[K",esc);
 #define scroll(start,end) printf("%c[%d;%dr",esc,start,end);
 #define scrollup printf("%c[%dT",esc,1);
 #define scrolldown printf("%c[%dS",esc,1);
