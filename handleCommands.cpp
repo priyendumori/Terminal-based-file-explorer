@@ -156,8 +156,10 @@ void handleCommands(bool isSearchResult){
                     int pid = fork();
 
                     if (pid == 0) {
-                        //close(2);
-                        execlp("/usr/bin/xdg-open", "xdg-open", file, NULL);
+                        close(2);
+                        myfile<<"opening file "<<file<<endl;
+                        execlp("/usr/bin/xdg-open", "xdg-open", file.c_str(), NULL);
+                        myfile<<"opened "<<endl;
                         exit(1);
                   }
                 }

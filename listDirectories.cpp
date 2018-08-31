@@ -94,11 +94,10 @@ void displayContent(const char *dname){
     string time = ctime(&sb.st_mtime);
     string trimtime = time.substr(0, time.size()-1);
     cout<< trimtime <<"\t";
+
     printf ("%s \n", dname);
 
-
     filelist.push_back(path);
-
 }
 
 string getPath(string name){
