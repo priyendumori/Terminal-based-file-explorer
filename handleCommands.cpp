@@ -12,9 +12,6 @@ extern string home;
 void handleCommands(bool isSearchResult){
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
-
-
     //pos(0,0);
     struct termios initialrsettings, newrsettings;
     char ch;
@@ -31,8 +28,6 @@ void handleCommands(bool isSearchResult){
     else {
 
         while(ch=cin.get()){
-
-
             if(ch==27){
             	ch=cin.get();
             	ch=cin.get();
@@ -185,22 +180,18 @@ void handleCommands(bool isSearchResult){
                 }
                 else{
 
-                    string run="bash -c 'xdg-open "; run.append(file); run.append("' 2 > /dev/null");
+                    /*string run="bash -c 'xdg-open "; run.append(file); run.append("' 2 > /dev/null");
                     string run1="bash -c 'xdg-open "+file+"' 2>/dev/null";
-                    system(run1.c_str());/*
+                    system(run1.c_str());*/
                     int pid = fork();
 
                     if (pid == 0) {
-                      //execl("/usr/bin/xdg-open", "xdg-open", file, NULL);
-                      string run="xdg-open "; run.append(file);
-                      system(run.c_str());
-                      //exit(1);
-                  }*/
+                        execlp("/usr/bin/xdg-open", "xdg-open", file, NULL);
+                        exit(1);
+                  }
                 }
             }
             else if(ch==':'){
-
-
                 commands();
 
             }

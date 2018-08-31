@@ -54,9 +54,59 @@ void displayContent(const char *dname){
         return;
 
     stat(dname, &sb);
-    printf("%ld : %ld \t", (long) sb.st_uid, (long) sb.st_gid);
-    printf("%lld bytes \t", (long long) sb.st_size);
-    printf("%lo \t", (unsigned long) sb.st_mode & (S_IRWXU | S_IRWXG | S_IRWXO));
+
+    string permissions;
+    switch (sb.st_mode & S_IFMT) {
+        case S_IFDIR:  permissions.append("d");    break;
+        case S_IFREG:  permissions.append("-");    break;
+        default:       permissions.append("-");    break;
+    }
+
+    if (sb.st_mode & S_IRUSR)   permissions.append("r");
+    else permissions.append("-");
+    if (sb.st_mode & S_IWUSR)  permissions.append("w");
+    else permissions.append("-");
+    if (sb.st_mode & S_IXUSR)  permissions.append("x");
+    else permissions.append("-");
+
+    if (sb.st_mode & S_IRGRP)   permissions.append("r");
+    else permissions.append("-");
+    if (sb.st_mode & S_IWGRP)  permissions.append("w");
+    else permissions.append("-");
+    if (sb.st_mode & S_IXGRP)  permissions.append("x");
+    else permissions.append("-");
+
+    if (sb.st_mode & S_IROTH)   permissions.append("r");
+    else permissions.append("-");
+    if (sb.st_mode & S_IWOTH)  permissions.append("w");
+    else permissions.append("-");
+    if (sb.st_mode & S_IXOTH)  permissions.append("x");
+    else permissions.append("-");
+
+
+    cout<<permissions<<"\t";
+
+    struct passwd *pws;
+    pws = getpwuid(sb.st_uid);
+    char *username=pws->pw_name;
+    struct group *g;
+    g = getgrgid(sb.st_gid);
+    char *groupname=g->gr_name;
+
+    printf("%s : %s \t", username , groupname );
+
+    long long size=sb.st_size;
+    char unit='B';
+    if(size>1024){
+        size/=1024;
+        unit='K';
+    }
+    if(size>1024){
+        size/=1024;
+        unit='M';
+    }
+    cout<<size<<" "<<unit<<"\t";
+
     string time = ctime(&sb.st_mtime);
     string trimtime = time.substr(0, time.size()-1);
     cout<< trimtime <<"\t";

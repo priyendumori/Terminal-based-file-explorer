@@ -11,5 +11,6 @@
 #include <stack>
 #include <fcntl.h>
 #include <string.h>
-
+#include <pwd.h>
+#include <grp.h>
 #include <fstream>
