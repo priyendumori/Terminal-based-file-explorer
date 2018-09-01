@@ -1,6 +1,15 @@
+/********************************************************************************/
+/*             Name: Priyendu Mori                                              */
+/*          Roll no: 2018201103                                                 */
+/********************************************************************************/
+
 #include "header.h"
 #include "macro.h"
 
+/*
+    this function moves files and directories
+    using copy and delete commands implementation
+*/
 void moveContent(vector<string> arguments){
 
     copyContent(arguments);

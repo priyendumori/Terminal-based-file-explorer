@@ -1,3 +1,8 @@
+/********************************************************************************/
+/*             Name: Priyendu Mori                                              */
+/*          Roll no: 2018201103                                                 */
+/********************************************************************************/
+
 #include "header.h"
 #include "macro.h"
 
@@ -5,6 +10,11 @@ extern vector<string> filelist;
 extern string currentPath,home;
 extern ofstream myfile;
 
+/*
+    this function takes a directory name and lists out
+    all the files and directories inside it with information
+    like permissions, size, last modified, owner
+*/
 int listContent(string name){
 
     struct winsize w;
@@ -46,6 +56,11 @@ int listContent(string name){
     return 1;
 }
 
+/*
+    this function takes a directory name and
+    fetches all the required information,
+    formats it and displays on terminal
+*/
 void displayContent(const char *dname){
     struct stat sb;
 
@@ -56,7 +71,7 @@ void displayContent(const char *dname){
     string path=getPath(dname);
     stat(path.c_str(), &sb);
 
-    myfile<<"file "<<path<<endl;
+    //myfile<<"file "<<path<<endl;
 
     printf((S_ISDIR(sb.st_mode))  ? "d" : "-");
     printf((sb.st_mode & S_IRUSR) ? "r" : "-");
@@ -89,7 +104,7 @@ void displayContent(const char *dname){
         size/=1024;
         unit='G';
     }
-    printf("%lld %c \t", size, unit);
+    printf("%lld%c \t", size, unit);
 
     string time = ctime(&sb.st_mtime);
     string trimtime = time.substr(0, time.size()-1);
@@ -100,6 +115,9 @@ void displayContent(const char *dname){
     filelist.push_back(path);
 }
 
+/*
+    generates path for file named name
+*/
 string getPath(string name){
 
     string path=currentPath;
@@ -108,6 +126,9 @@ string getPath(string name){
     return path;
 }
 
+/*
+    this function returns the current working directory
+*/
 string getpwd(){
     char buff[FILENAME_MAX];
     getcwd( buff, FILENAME_MAX );

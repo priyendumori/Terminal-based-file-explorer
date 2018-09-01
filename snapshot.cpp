@@ -1,9 +1,19 @@
+/********************************************************************************/
+/*             Name: Priyendu Mori                                              */
+/*          Roll no: 2018201103                                                 */
+/********************************************************************************/
+
 #include "header.h"
 #include "macro.h"
 ofstream dump;
 extern string currentPath,home;
 extern ofstream myfile;
+extern struct winsize w;
 
+/*
+    this is a helper function for taking snapshot from a
+    directory in DFS manner and store it in a dumpfile
+*/
 void snapshotHelper(string path){
     string fullpath;
 
@@ -19,8 +29,14 @@ void snapshotHelper(string path){
     }
 
     if ((dir = opendir(path.c_str())) == NULL) {
-        fprintf(stderr, "%s: %s\n", "Can`t open directory", path);
+        //fprintf(stderr, "%s: %s\n", "Can`t open directory", path);
         //exit(-1);
+        commands(true);
+        //exit(1);
+        return;
+        //commands();*/
+
+
     }
 
 
@@ -38,8 +54,10 @@ void snapshotHelper(string path){
     closedir(dir);
 
     if ((dir = opendir(path.c_str())) == NULL) {
-        fprintf(stderr, "%s: %s\n", "Can`t open directory", path);
+        //fprintf(stderr, "%s: %s\n", "Can`t open directory", path);
         //exit(-1);
+        commands(true);
+        return;
     }
 
     while ((entry = readdir(dir)) != NULL) {
@@ -61,6 +79,10 @@ void snapshotHelper(string path){
     closedir(dir);
 }
 
+/*
+    this function dumps DFS snapshot of a
+    directory(dir) to file(dumpfile)
+*/
 void getSnapshot(string dir, string dumpfile){
 
     dump.open(dumpfile+".txt");

@@ -1,3 +1,8 @@
+/********************************************************************************/
+/*             Name: Priyendu Mori                                              */
+/*          Roll no: 2018201103                                                 */
+/********************************************************************************/
+
 #include "header.h"
 #include "macro.h"
 
@@ -8,10 +13,16 @@ extern stack<string> backstack,frontstack;
 extern string currentPath;
 extern ofstream myfile;
 extern string home;
+extern struct winsize w;
 
+/*
+    this function handles all the key functions like
+    arrow, backspace, h, etc, maintains the cursor
+    position and opens file or directory on pressing
+    enter appropriately
+*/
 void handleCommands(bool isSearchResult){
-    struct winsize w;
-    ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
+
     //pos(0,0);
     struct termios initialrsettings, newrsettings;
     char ch;
@@ -103,7 +114,7 @@ void handleCommands(bool isSearchResult){
                 else{
                     file=filelist[lineno];
                 }
-                myfile<<endl<<file<<endl;
+                //myfile<<endl<<file<<endl;
                 struct stat sb;
                 stat(file.c_str(), &sb);
                 bool isDirectory=S_ISDIR(sb.st_mode);
@@ -111,7 +122,7 @@ void handleCommands(bool isSearchResult){
                 if(isDirectory){
 
                     string currentFile=file.substr(file.find_last_of("\\/")+1,file.length());
-                    myfile<<"opening "<<file<<endl;
+                    //myfile<<"opening "<<file<<endl;
                     if(currentFile.compare(".")==0){
 
                         listContent(currentPath);
@@ -133,19 +144,6 @@ void handleCommands(bool isSearchResult){
                     }
 
 
-                    stack<string> temp=backstack;
-                    myfile<<endl<<"backstack "<<endl;
-                    while(!temp.empty()){
-                        myfile << temp.top()<<endl;
-                        temp.pop();
-                    }
-
-                    stack<string> temp1=frontstack;
-                    myfile<<endl<<"frontstack "<<endl;
-                    while(!temp1.empty()){
-                        myfile << temp1.top()<<endl;
-                        temp1.pop();
-                    }
 
                 }
                 else{
@@ -157,15 +155,15 @@ void handleCommands(bool isSearchResult){
 
                     if (pid == 0) {
                         close(2);
-                        myfile<<"opening file "<<file<<endl;
+                        //myfile<<"opening file "<<file<<endl;
                         execlp("/usr/bin/xdg-open", "xdg-open", file.c_str(), NULL);
-                        myfile<<"opened "<<endl;
+                        //myfile<<"opened "<<endl;
                         exit(1);
                   }
                 }
             }
             else if(ch==':'){
-                commands();
+                commands(false);
 
             }
             else if(ch=='q'){

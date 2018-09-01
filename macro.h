@@ -1,3 +1,12 @@
+/********************************************************************************/
+/*             Name: Priyendu Mori                                              */
+/*          Roll no: 2018201103                                                 */
+/********************************************************************************/
+
+/*
+    this file contains macro and function definitions
+*/
+
 using namespace std;
 
 #define esc 27
@@ -20,15 +29,15 @@ void displayContent(const char *);
 void handleCommands(bool);
 string getPath(string);
 string getpwd();
-void commands();
+void commands(bool);
 void runCommand(string);
 void changeName(string, string);
 void createDirectory(string, string);
 string createPath(string , string);
 void createFile(string, string);
 void gotoDirectory(string);
-void deleteFile(string, string);
-void deleteDirectory(string, string);
+void deleteFile(string);
+void deleteDirectory(string);
 void getSnapshot(string, string);
 void copyContent(vector<string>);
 void moveContent(vector<string>);

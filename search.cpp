@@ -1,7 +1,18 @@
+/********************************************************************************/
+/*             Name: Priyendu Mori                                              */
+/*          Roll no: 2018201103                                                 */
+/********************************************************************************/
+
 #include "header.h"
 #include "macro.h"
 vector<string> results, printresults;
 extern string home;
+extern struct winsize w;
+
+/*
+    this function searches for a file or directory from current directory
+    recursively in a DFS manner and stores it
+*/
 void search(string path, string pattern){
     string fullpath;
     DIR *dir;
@@ -13,14 +24,16 @@ void search(string path, string pattern){
 
     // if path does not exists or is not dir - exit with status -1
     if (S_ISDIR(stat_dir.st_mode) == 0) {
-        fprintf(stderr, "%s: %s\n", "Is not directory", path);
+        //fprintf(stderr, "%s: %s\n", "Is not directory", path);
         //exit(-1);
+        commands(true);
     }
 
     // if not possible to read the directory for this user
     if ((dir = opendir(path.c_str())) == NULL) {
-        fprintf(stderr, "%s: %s\n", "Can`t open directory", path);
+        //fprintf(stderr, "%s: %s\n", "Can`t open directory", path);
         //exit(-1);
+        commands(true);
     }
 
 
@@ -55,8 +68,14 @@ void search(string path, string pattern){
     closedir(dir);
 }
 
+/*
+    this function displays the results of the search
+*/
 void displaySearchResults(){
     for(auto i:printresults){
         cout<<i<<endl;
     }
+    pos(w.ws_row,0);
+    cout<<"Normal mode";
+    pos(0,0);
 }
