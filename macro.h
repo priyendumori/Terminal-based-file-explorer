@@ -10,7 +10,6 @@
 using namespace std;
 
 #define esc 27
-
 #define cls printf("%c[2J",esc)
 #define cls1 printf("%c[3J%c[1;1H",esc,esc)
 #define pos(row,col) printf("%c[%d;%dH",esc,row,col)
@@ -22,7 +21,6 @@ using namespace std;
 #define scroll(start,end) printf("%c[%d;%dr",esc,start,end);
 #define scrollup printf("%c[%dT",esc,1);
 #define scrolldown printf("%c[%dS",esc,1);
-//"\e[1;47r"
 
 int listContent(string);
 void displayContent(const char *);

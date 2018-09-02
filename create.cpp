@@ -7,6 +7,7 @@
 #include "macro.h"
 extern ofstream myfile;
 
+
 /*
     this function creates a file with
     given filename at location path
@@ -17,13 +18,12 @@ void createFile(string filename, string path){
     if(fd==-1) commands(true);
 }
 
+
 /*
     this function creates a directory
     with name dirname at location path
 */
 void createDirectory(string dirname, string path){
-    //if(path.compare(".")==0) path=currentPath;
     string fullpath=createPath(path, dirname);
-    //myfile<<fullpath<<endl;
     if(mkdir(fullpath.c_str(),0775)!=0) commands(true);
 }

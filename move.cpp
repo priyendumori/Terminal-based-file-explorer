@@ -11,7 +11,6 @@
     using copy and delete commands implementation
 */
 void moveContent(vector<string> arguments){
-
     copyContent(arguments);
 
     string destination=arguments[arguments.size()-1];

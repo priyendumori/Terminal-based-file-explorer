@@ -10,19 +10,15 @@ extern vector<string> filelist;
 extern string currentPath,home;
 extern ofstream myfile;
 
+
 /*
     this function takes a directory name and lists out
     all the files and directories inside it with information
     like permissions, size, last modified, owner
 */
 int listContent(string name){
-
     struct winsize w;
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-
-    //printf ("lines %d\n", w.ws_row);
-    //printf ("columns %d\n", w.ws_col);
-
 
     filelist.clear();
     cls;
@@ -30,14 +26,10 @@ int listContent(string name){
     string s=name;
     if(s.compare(".") != 0) currentPath=name;
 
-    //printf("\033[3J\033[1;1H");
-    //cls1;
     DIR *dir;
     struct dirent *ent;
     const char *dirname=name.c_str();
     if ((dir = opendir (dirname)) != NULL) {
-        /* print all the files and directories within directory */
-
         while ((ent = readdir (dir)) != NULL) {
             displayContent(ent->d_name);
         }
@@ -45,16 +37,14 @@ int listContent(string name){
         closedir (dir);
         pos(w.ws_row,0);
         cout<<"Normal mode";
-        //scroll(0,w.ws_row);
         pos(0,0);
     }
     else {
-        /* could not open directory */
-        perror ("");
         return EXIT_FAILURE;
     }
     return 1;
 }
+
 
 /*
     this function takes a directory name and
@@ -63,16 +53,12 @@ int listContent(string name){
 */
 void displayContent(const char *dname){
     struct stat sb;
-
     string dirname(dname);
     if(dirname.compare("..")==0 && currentPath==home)
         return;
 
     string path=getPath(dname);
     stat(path.c_str(), &sb);
-
-    //myfile<<"file "<<path<<endl;
-
     printf((S_ISDIR(sb.st_mode))  ? "d" : "-");
     printf((sb.st_mode & S_IRUSR) ? "r" : "-");
     printf((sb.st_mode & S_IWUSR) ? "w" : "-");
@@ -115,16 +101,17 @@ void displayContent(const char *dname){
     filelist.push_back(path);
 }
 
+
 /*
     generates path for file named name
 */
 string getPath(string name){
-
     string path=currentPath;
     path.append("/");
     path.append(name);
     return path;
 }
+
 
 /*
     this function returns the current working directory

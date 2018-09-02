@@ -7,6 +7,7 @@
 #include "macro.h"
 extern struct winsize w;
 
+
 /*
     main function that drives the entire application
 */
@@ -19,7 +20,7 @@ int main(int argc, char *argv[]){
     extern stack<string> backstack;
 
     ioctl(STDOUT_FILENO, TIOCGWINSZ, &w);
-    myfile.open ("debug.txt");
+
     if(argc==1){
         home=getpwd();
         backstack.push(home);

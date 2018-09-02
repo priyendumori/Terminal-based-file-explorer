@@ -13,6 +13,7 @@ extern stack<string> backstack;
 vector<string> split;
 extern struct winsize w;
 
+
 /*
     this function handles writing of command
     in the command mode
@@ -31,7 +32,6 @@ void commands(bool fail){
 
     while(ch=cin.get()){
         if(ch=='\n'){
-            //cout<<"\b"<<command;
             runCommand(command);
             command="";
         }
@@ -57,19 +57,16 @@ void commands(bool fail){
     }
 }
 
+
 /*
     this function calls the respective command
     function to execute from their respective files
 */
 void runCommand(string command){
-    //myfile<<"command line: "<<command<<endl<<endl;
     split.clear();
     char *c=strcpy(new char[command.length()+1], command.c_str() );
     char *token = strtok(c, " ");
-    // Keep printing tokens while one of the
-    // delimiters present in str[].
-    while (token != NULL)
-    {
+    while (token != NULL){
         split.push_back(token);
         token = strtok(NULL, " ");
     }
@@ -107,7 +104,6 @@ void runCommand(string command){
         }
     }
     else if(commandName.compare("create_dir")==0){
-        //myfile<<"sending "<<split[1]<<" "<<split[2]<<endl;
         if(split.size()<=2){
             commands(true);
         }
@@ -189,6 +185,7 @@ void runCommand(string command){
     }
 }
 
+
 /*
     this function is used to generate
     fullpath from given path and name
@@ -196,18 +193,14 @@ void runCommand(string command){
 string createPath(string path, string name){
     string fullpath=home;
     if(path.compare(".")==0){
-        //myfile<<"in ."<<endl;
         fullpath=currentPath;
     }else if(path[0]=='~'){
-        //myfile<<"in ~"<<endl;
         fullpath.append(path.substr(1,path.length()-1));
     }
     else if(path[0]=='/'){
-        //myfile<<"in /"<<endl;
         fullpath.append(path);
     }
     else{
-        //myfile<<"in else"<<endl;
         fullpath=currentPath;
         fullpath.append("/"+path);
     }
@@ -215,6 +208,7 @@ string createPath(string path, string name){
 
     return fullpath;
 }
+
 
 /*
     this function generates absolute

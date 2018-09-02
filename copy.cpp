@@ -7,6 +7,7 @@
 #include "macro.h"
 extern ofstream myfile;
 
+
 /*
     this function copies file
 */
@@ -17,13 +18,11 @@ void copy(string from, string to){
 
     if(((fd_from = open(from.c_str(), O_RDONLY)) == -1) ||
      ((fd_to=open(to.c_str(),O_CREAT|O_WRONLY|O_TRUNC, 0700)) == -1)){
-        //perror("file problem");
         commands(true);
     }
 
     while((size=read(fd_from, buffer, 1024)) > 0){
         if(write(fd_to, buffer, size) != size){
-            //perror("writing problem ");
             commands(true);
         }
     }
@@ -37,6 +36,7 @@ void copy(string from, string to){
     close(fd_to);
 }
 
+
 /*
     this function copies directories recursivey
 */
@@ -45,13 +45,13 @@ void copyDirectory(string from, string to){
     struct dirent *entry;
     struct stat stat_dir, stat_entry;
     string frompath,topath;
+
     stat(from.c_str(), &stat_dir);
     if(S_ISDIR(stat_dir.st_mode) == 0){
         return;
     }
 
     if( DIR = opendir(from.c_str()) ){
-
         while(entry = readdir(DIR)){
             if (!strcmp(entry->d_name, ".") || !strcmp(entry->d_name, ".."))
                 continue;
@@ -77,9 +77,8 @@ void copyDirectory(string from, string to){
         }
         closedir(DIR);
     }
-
-
 }
+
 
 /*
     this function is a driver function to get arguments,
@@ -91,10 +90,8 @@ void copyContent(vector<string> arguments){
     arguments.erase(arguments.begin()+arguments.size()-1);
 
     destination=getWholePath(destination);
-
     for(int i=0;i<arguments.size();i++){
         string path=getWholePath(arguments[i]);
-        //myfile<<"calling function on "<<path<<" and "<<destination<<endl;
         struct stat buf;
         stat(path.c_str(), &buf);
         if(S_ISDIR(buf.st_mode)==0){
