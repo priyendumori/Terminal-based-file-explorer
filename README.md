@@ -20,7 +20,7 @@ It will open explorer in specified folder
 * : can be used to get into command mode. Bottom line would be available to right command.
 * After running one command, the bottom line gets cleared and is ready to accept more commands.
 * ESC to go back to normal mode.
-* Details about all the commands can be found [here]()
+* Details about all the commands can be found [here](https://github.com/priyendumori/Terminal-based-file-explorer/blob/master/OS_Assignment_1.pdf)
 
 
 ## Assumptions
